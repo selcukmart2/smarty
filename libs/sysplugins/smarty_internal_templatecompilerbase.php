@@ -784,7 +784,11 @@ abstract class Smarty_Internal_TemplateCompilerBase
         if (!isset(self::$_tag_objects[ $tag ])) {
             // lazy load internal compiler plugin
             $_tag = explode('_', $tag);
-            $_tag = array_map('ucfirst', $_tag);
+		/**
+		* in azerbayjan language make problem ucfirst with if and include,
+		* if you use mb_ucfirst instead of ucfirst, the problem is been solved
+		*/
+            $_tag = array_map('mb_ucfirst', $_tag);
             $class_name = 'Smarty_Internal_Compile_' . implode('_', $_tag);
             if (class_exists($class_name)
                 && (!isset($this->smarty->security_policy) || $this->smarty->security_policy->isTrustedTag($tag, $this))
